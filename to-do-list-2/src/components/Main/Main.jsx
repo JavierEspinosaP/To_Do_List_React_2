@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import {Route, Routes} from 'react-router-dom';
 import List from './List/List';
-import Header from '../Header/Header'
-import Footer from '../Footer/Footer'
-import NotFound from '../NotFound'
+import Weather from './Weather';
 
 class Main extends Component {
   render() {
 
     return (
       <main>
-        <List/>
+        <Routes>
+          <Route element={<List/>}path={'/todo'}/>
+          <Route element={<Weather/>}path={'/weather'}/>
+        </Routes>
       </main>
     )
   }
