@@ -1,10 +1,10 @@
 import React from "react";
 import { shallow } from "enzyme";
-import NotFound from "./NotFound";
+import WeatherCard from "./WeatherCard";
 
-describe("NotFound", () => {
+describe("WeatherCard", () => {
   test("matches snapshot", () => {
-    const wrapper = shallow(<NotFound />);
+    const wrapper = shallow(<WeatherCard />);
     expect(wrapper).toMatchSnapshot();
   });
 });
