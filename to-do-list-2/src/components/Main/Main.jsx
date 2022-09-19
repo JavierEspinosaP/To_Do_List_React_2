@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import {Route, Routes} from 'react-router-dom';
 import List from './List/List';
-import Weather from './Weather';
+import WeatherList from './WeatherList';
+import './Main.css'
 
 class Main extends Component {
   render() {
@@ -10,7 +11,7 @@ class Main extends Component {
       <main>
         <Routes>
           <Route element={<List/>}path={'/todo'}/>
-          <Route element={<Weather/>}path={'/weather'}/>
+          <Route element={<WeatherList/>}path={'/weather'}/>
         </Routes>
       </main>
     )
