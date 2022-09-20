@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import WeatherCard from "./WeatherCard"
 import { v4 as uuidv4 } from 'uuid';
 import './WeatherList.css'
+import myApiKey from './config'
 
 class WeatherList extends Component {
   constructor(props) {
@@ -16,9 +17,22 @@ class WeatherList extends Component {
 
     
 async componentDidMount(){
-  const resp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${this.state.ciudad}&units=metric&lang=sp&APPID=2731e52a2ffcdce7e38ca16b0b20d96d`);
+  const resp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${this.state.ciudad}&units=metric&lang=sp&APPID=${myApiKey}`);
   const data = await resp.json();
-  this.setState({pronostico: data.list})
+  let arrDay = [];
+  let arrTotal = []
+  let initialDate = data.list[0].dt_txt.slice(0,10)
+  for (let i = 0; i < data.list.length; i++) {
+    let actualData = data.list[i]
+    let actualDate = data.list[i].dt_txt.slice(0, 10) //2022-09-24
+    if (actualDate!=initialDate) {
+      arrTotal.push(arrDay)
+      initialDate = actualDate
+      arrDay = []
+    }
+    arrDay.push(actualData)
+    }
+  this.setState({pronostico: arrTotal})
 
   console.log('componentDidMount');
 
@@ -35,11 +49,22 @@ handlerChangeCity = async (event) =>{
   this.setState({ciudad: city})
   const resp = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&lang=sp&APPID=2731e52a2ffcdce7e38ca16b0b20d96d`);
   const data = await resp.json();
-  this.setState({pronostico: data.list})
-  console.log("HOLAAA", this.state.pronostico);
+  let arrDay = [];
+  let arrTotal = []
+  let initialDate = data.list[0].dt_txt.slice(0,10)
+  for (let i = 0; i < data.list.length; i++) {
+    let actualData = data.list[i]
+    let actualDate = data.list[i].dt_txt.slice(0, 10) //2022-09-24
+    if (actualDate!=initialDate) {
+      arrTotal.push(arrDay)
+      initialDate = actualDate
+      arrDay = []
+    }
+    arrDay.push(actualData)
+    }
+  this.setState({pronostico: arrTotal})
 }
 render() {
-  console.log("pronostico render: ", this.state.pronostico);
   return (
       <div className="card-list">
           <h1>Pronóstico próximos días en {this.state.ciudad}</h1>
@@ -50,7 +75,7 @@ render() {
           </form>
           {
             this.state.pronostico.map(weather => 
-              <WeatherCard data={weather} description={weather.weather[0]}  key={uuidv4()}/>)
+              <WeatherCard data={weather} key={uuidv4()}/>)
           }
 
       </div>        
